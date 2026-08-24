@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 99
+
+struct node {
+    int vertex;
+    struct node* next;
+};
+typedef struct node* GNODE;
+
+GNODE graph[20];
+int visited[20];
+int queue[MAX], front = -1, rear = -1;
+int n;
+
+void insertQueue(int vertex) {
+    if (rear == MAX - 1)
+        printf("Queue Overflow.\n");
+    else {
+        if (front == -1)
+            front = 0;
+        rear++;
+        queue[rear] = vertex;
+    }
+}
+
+int isEmptyQueue() {
+    return (front == -1 || front > rear);
+}
+
+int deleteQueue() {
+    if (isEmptyQueue()) {
+        printf("Queue Underflow\n");
+        exit(1);
+    }
+    return queue[front++];
+}
+
+void BFS(int v) {
+    // Write your code here
+    
+    GNODE p;
+    
+    visited[v] = 1;
+    queue[rear++] = v; 
+    
+    while (front < rear) {
+        int currentVertex = queue[front++]; 
+        printf("\n%d", currentVertex);
+        
+        p = graph[currentVertex];
+        while (p != NULL) {
+            int neighbor = p->vertex;
+            
+            if (!visited[neighbor]) {
+                visited[neighbor] = 1;
+                queue[rear++] = neighbor;
+            }
+            p = p->next;
+        }
+	}
+    
+    
+    
+}
+
+void main() {
+    int N, E, s, d, i, v;
+    GNODE p, q;
+
+    printf("Enter the number of vertices: ");
+    scanf("%d", &N);
+    n = N;
+
+    for (i = 0; i < N; i++) {
+        graph[i] = NULL;
+        visited[i] = 0;
+    }
+
+    printf("Enter the number of edges: ");
+    scanf("%d", &E);
+    for (i = 1; i <= E; i++) {
